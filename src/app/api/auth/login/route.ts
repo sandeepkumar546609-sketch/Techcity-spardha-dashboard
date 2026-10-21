@@ -1,7 +1,7 @@
 import { compare } from "bcryptjs";
 import { NextResponse } from "next/server";
 import { applySessionCookie, signSession } from "@/lib/auth";
-import { connectDb } from "@/lib/db";
+import { connectDb, describeAuthError } from "@/lib/db";
 import { Student, toPublicStudent } from "@/lib/student";
 import { validateLogin, type LoginInput } from "@/lib/student-fields";
 
@@ -55,7 +55,9 @@ export async function POST(request: Request) {
   } catch (caught) {
     console.error("Login failed", caught);
     return NextResponse.json(
-      { error: "Login could not be completed. Try again in a moment." },
+      {
+        error: describeAuthError(caught, "Login could not be completed."),
+      },
       { status: 500 },
     );
   }

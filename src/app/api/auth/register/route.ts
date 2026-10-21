@@ -1,7 +1,7 @@
 import { hash } from "bcryptjs";
 import { NextResponse } from "next/server";
 import { applySessionCookie, signSession } from "@/lib/auth";
-import { connectDb } from "@/lib/db";
+import { connectDb, describeAuthError } from "@/lib/db";
 import { Student, toPublicStudent } from "@/lib/student";
 import { validateRegister, type RegisterInput } from "@/lib/student-fields";
 
@@ -70,7 +70,12 @@ export async function POST(request: Request) {
 
     console.error("Register failed", caught);
     return NextResponse.json(
-      { error: "The account could not be saved. Try again in a moment." },
+      {
+        error: describeAuthError(
+          caught,
+          "The account could not be saved.",
+        ),
+      },
       { status: 500 },
     );
   }
