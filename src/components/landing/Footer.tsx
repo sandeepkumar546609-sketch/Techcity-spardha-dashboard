@@ -13,7 +13,7 @@ export default function Footer() {
     <footer className="border-t border-accent/10 bg-background">
       <div className="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-10 sm:gap-10 sm:px-8 sm:py-12 lg:flex-row lg:items-center lg:justify-between">
         <a
-          href="https://techcityskills.com"
+          href="https://www.techcityskills.com"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex h-10 w-full items-center justify-center bg-accent px-5 text-[13px] font-medium text-on-accent transition-colors hover:bg-accent/90 sm:w-fit"
