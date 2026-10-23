@@ -9,16 +9,16 @@ export function PortalFrame({ children }: { children: React.ReactNode }) {
   const { student, loading } = useAuth();
   const router = useRouter();
   const signedOut = !loading && !student;
+  const previewMode = process.env.NODE_ENV === "development";
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const closeMobile = useCallback(() => setMobileOpen(false), []);
 
-  useEffect(() => {
-    if (signedOut) {
-      router.replace("/login");
-    }
-  }, [signedOut, router]);
-
+ useEffect(() => {
+  if (signedOut && !previewMode) {
+    router.replace("/login");
+  }
+}, [signedOut, previewMode, router]);
   return (
     <div className="flex min-h-svh w-full flex-1">
       {student ? (
@@ -41,13 +41,13 @@ export function PortalFrame({ children }: { children: React.ReactNode }) {
           />
         ) : null}
         {children}
-        {student ? null : (
-          <div className="absolute inset-0 flex items-center bg-background px-5 sm:px-10">
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-foreground/45">
-              Loading account
-            </p>
-          </div>
-        )}
+       {student || previewMode ? null : (
+  <div className="absolute inset-0 flex items-center bg-background px-5 sm:px-10">
+    <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-foreground/45">
+      Loading account
+    </p>
+  </div>
+)}
       </div>
     </div>
   );
